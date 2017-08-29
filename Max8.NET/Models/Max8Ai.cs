@@ -2,7 +2,7 @@
 {
     class Max8Ai
     {
-        public int depth;
+        int depth;
         public int Depth
         {
             get => depth;
