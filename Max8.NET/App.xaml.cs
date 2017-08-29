@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Max8.NET.Views;
 using System.Windows;
 
 namespace Max8.NET
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        Window mainView;
+        object mainVm;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            mainView = new MainWindow();
+            mainView.Show();
+        }
     }
 }
