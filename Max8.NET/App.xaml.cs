@@ -1,4 +1,5 @@
-﻿using Max8.NET.Views;
+﻿using Max8.NET.ViewModels;
+using Max8.NET.Views;
 using System.Windows;
 
 namespace Max8.NET
@@ -11,7 +12,8 @@ namespace Max8.NET
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            mainView = new MainWindow();
+            mainVm = new MainVm();
+            mainView = new MainWindow { DataContext = mainVm };
             mainView.Show();
         }
     }
