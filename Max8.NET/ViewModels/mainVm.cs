@@ -1,5 +1,6 @@
 ﻿using Max8.NET.Models;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Max8.NET.ViewModels
 {
@@ -18,6 +19,7 @@ namespace Max8.NET.ViewModels
                 new PlayerVm("ИИ 4 ур.", true, new Max8Ai { Depth = 4 }),
                 new PlayerVm("ИИ 5 ур.", true, new Max8Ai { Depth = 5 })
             };
+            PeopleMoveCommand = new DelegateCommand(o => PeopleMove((CellVm)o));
         }
 
         PlayerVm player1, player2, currentPlayer;
@@ -64,6 +66,8 @@ namespace Max8.NET.ViewModels
             set => Set(ref curY, value);
         }
 
+        public ICommand PeopleMoveCommand;
+
         void NewGame()
         {
             if (Player1 == null ||
@@ -75,6 +79,15 @@ namespace Max8.NET.ViewModels
             CurX = CurY = 1;
             IsInGame = true;
             MoveEnded();
+        }
+
+        void PeopleMove(CellVm cellVm)
+        {
+            if (CurrentPlayer.IsAi) return;
+            var index = (FieldVm.Cells as List<CellVm>).IndexOf(cellVm);
+            CurX = index % FieldVm.FieldSize;
+            CurY = index / FieldVm.FieldSize;
+            CkeckLastCell();
         }
 
         void AiMove()
@@ -89,7 +102,6 @@ namespace Max8.NET.ViewModels
                 CurY = CurrentPlayer.Ai.FindBestMove(field, d, CurX);
             }
             CkeckLastCell();
-            MoveEnded();
         }
 
         void CkeckLastCell()
@@ -97,6 +109,7 @@ namespace Max8.NET.ViewModels
             CurrentPlayer.Score += field[CurX, CurY].Value;
             field.DeactivateCell(CurX, CurY);
             FieldVm.Cells[CurX + CurY * FieldVm.FieldSize].IsActive = false;
+            MoveEnded();
         }
 
         void MoveEnded()
