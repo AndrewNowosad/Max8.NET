@@ -19,11 +19,17 @@
 
         Field() { }
 
+        public void Transpose()
+            => isTransp = !isTransp;
+
         public Cell this[int x, int y]
             => isTransp ? cells[y, x] : cells[x, y];
 
-        public void Transpose()
-            => isTransp = !isTransp;
+        public void DeactivateCell(int x, int y)
+        {
+            if (isTransp) cells[y, x].IsActive = false;
+            else cells[x, y].IsActive = false;
+        }
 
         public Field CreateCopy()
         {

@@ -63,7 +63,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\Max8Ai.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
