@@ -5,9 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Max8.NET.ViewModels"
         xmlns:local="clr-namespace:Max8.NET.Views"
+        xmlns:conv="clr-namespace:Max8.NET.Views.Converters"
         d:DataContext="{d:DesignInstance Type=vm:MainVm}"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <conv:BoolConverter x:Key="TrueToVisibleConverter"
+                            TrueValue="Visible"
+                            FalseValue="Collapsed"/>
+        <conv:BoolConverter x:Key="InverseBoolConverter"
+                            TrueValue="False"
+                            FalseValue="True"/>
+    </Window.Resources>
+    
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -17,7 +27,8 @@
         <StackPanel Margin="0,0,5,0">
             <UniformGrid Rows="1">
                 <Button Content="Начать игру" Padding="5,3"
-                        Command="{Binding NewGameCommand}"/>
+                        Command="{Binding NewGameCommand}"
+                        IsEnabled="{Binding IsInGame, Converter={StaticResource InverseBoolConverter}}"/>
                 <Button Content="Завершить" Margin="5,0,0,0"
                         Padding="5,3"/>
             </UniformGrid>
@@ -64,8 +75,8 @@
                     <Button Content="{Binding Value}" Margin="0,0,2,2"
                             Command="{Binding DataContext.PeopleMoveCommand,
                                               RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            CommandParameter="{Binding}"
-                            IsEnabled="{Binding IsAvailable}"/>
+                            CommandParameter="{Binding}" IsEnabled="{Binding IsAvailable}"
+                            Visibility="{Binding IsActive, Converter={StaticResource TrueToVisibleConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
