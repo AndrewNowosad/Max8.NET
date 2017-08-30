@@ -3,10 +3,71 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Max8.NET.ViewModels"
         xmlns:local="clr-namespace:Max8.NET.Views"
+        d:DataContext="{d:DesignInstance Type=vm:MainVm}"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
+        <StackPanel Margin="0,0,5,0">
+            <UniformGrid Rows="1">
+                <Button Content="Начать игру" Padding="5,3"
+                        Command="{Binding NewGameCommand}"/>
+                <Button Content="Завершить" Margin="5,0,0,0"
+                        Padding="5,3"/>
+            </UniformGrid>
+
+            <TextBlock Text="Первый игрок:"
+                       Margin="0,15,0,0"/>
+
+            <ComboBox ItemsSource="{Binding AllPlayers1}"
+                      SelectedItem="{Binding Player1}"
+                      DisplayMemberPath="Name"/>
+            
+            <TextBlock>
+                Очки:
+                <Run Text="{Binding Player1.Score}"/>
+            </TextBlock>
+
+            <TextBlock Text="Второй игрок:"
+                       Margin="0,15,0,0"/>
+
+            <ComboBox ItemsSource="{Binding AllPlayers2}"
+                      SelectedItem="{Binding Player2}"
+                      DisplayMemberPath="Name"/>
+            <TextBlock>
+                Очки:
+                <Run Text="{Binding Player2.Score}"/>
+            </TextBlock>
+
+            <TextBlock Margin="0,15,0,0">
+                Ход игрока:
+                <Run Text="{Binding CurrentPlayer.Name, Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+        
+        <ItemsControl Grid.Column="1" ItemsSource="{Binding FieldVm.Cells}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding FieldVm.FieldSize}"
+                                 Columns="{Binding FieldVm.FieldSize}"
+                                 IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Value}" Margin="0,0,2,2"
+                            Command="{Binding DataContext.PeopleMoveCommand,
+                                              RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            CommandParameter="{Binding}"
+                            IsEnabled="{Binding IsAvailable}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>
