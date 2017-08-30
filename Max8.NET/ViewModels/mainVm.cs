@@ -118,11 +118,11 @@ namespace Max8.NET.ViewModels
             if (!IsInGame) return;
             if (d == Direction.Horizontal)
             {
-                CurX = CurrentPlayer.Ai.FindBestMove(field, d, CurY);
+                CurX = await Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurY));
             }
             else
             {
-                CurY = CurrentPlayer.Ai.FindBestMove(field, d, CurX);
+                CurY = await Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurX));
             }
             CkeckLastCell();
         }
