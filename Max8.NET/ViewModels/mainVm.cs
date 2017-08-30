@@ -53,11 +53,16 @@ namespace Max8.NET.ViewModels
             set => Set(ref currentPlayer, value);
         }
 
-        bool isInGame = false;
+        bool isInGame = false, isGameOver = false;
         public bool IsInGame
         {
             get => isInGame;
             set => Set(ref isInGame, value);
+        }
+        public bool IsGameOver
+        {
+            get => isGameOver;
+            set => Set(ref isGameOver, value);
         }
 
         Field field;
@@ -99,6 +104,7 @@ namespace Max8.NET.ViewModels
             CurrentPlayer = null;
             CurX = CurY = 1;
             IsInGame = true;
+            IsGameOver = false;
             MoveEnded();
         }
 
@@ -147,7 +153,8 @@ namespace Max8.NET.ViewModels
                 CurrentPlayer = Player1;
                 IsInGame = FieldVm.ActivateHorizontal(CurY);
             }
-            if (isInGame && CurrentPlayer.IsAi) AiMove();
+            if (!IsInGame) IsGameOver = true;
+            if (IsInGame && CurrentPlayer.IsAi) AiMove();
         }
     }
 }

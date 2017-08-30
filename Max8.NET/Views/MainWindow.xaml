@@ -15,6 +15,7 @@
         <conv:BoolConverter x:Key="InverseBoolConverter"
                             TrueValue="False"
                             FalseValue="True"/>
+        <conv:ScoresToResultConverter x:Key="ScoresToResultConverter"/>
     </Window.Resources>
 
     <Grid Margin="5">
@@ -86,5 +87,50 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <Grid Grid.Column="1"
+              Visibility="{Binding IsGameOver, Converter={StaticResource TrueToVisibleConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <Border Grid.Row="1" Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    BorderThickness="2" BorderBrush="Black"
+                    CornerRadius="5" Padding="5"
+                    Background="LightGray">
+                <Viewbox Stretch="Uniform">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center">
+                            <Run Text="{Binding Player1.Name, Mode=OneWay}"/>
+                            :
+                            <Run Text="{Binding Player2.Name, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock FontWeight="DemiBold" FontSize="18"
+                                   HorizontalAlignment="Center">
+                            <Run Text="{Binding Player1.Score}"/>
+                            :
+                            <Run Text="{Binding Player2.Score}"/>
+                        </TextBlock>
+                        <TextBlock HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource ScoresToResultConverter}">
+                                    <Binding Path="Player1.Score"/>
+                                    <Binding Path="Player2.Score"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Viewbox>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
