@@ -6,11 +6,12 @@ namespace Max8.NET.ViewModels
 {
     class MainVm : Vm
     {
-        IReadOnlyList<PlayerVm> AllPlayers { get; }
+        public IReadOnlyList<PlayerVm> AllPlayers1 { get; }
+        public IReadOnlyList<PlayerVm> AllPlayers2 { get; }
 
         public MainVm()
         {
-            AllPlayers = new List<PlayerVm>
+            AllPlayers1 = new List<PlayerVm>
             {
                 new PlayerVm("Человек", false, null),
                 new PlayerVm("ИИ 1 ур.", true, new Max8Ai { Depth = 1 }),
@@ -19,6 +20,16 @@ namespace Max8.NET.ViewModels
                 new PlayerVm("ИИ 4 ур.", true, new Max8Ai { Depth = 4 }),
                 new PlayerVm("ИИ 5 ур.", true, new Max8Ai { Depth = 5 })
             };
+            AllPlayers2 = new List<PlayerVm>
+            {
+                new PlayerVm("Человек", false, null),
+                new PlayerVm("ИИ 1 ур.", true, new Max8Ai { Depth = 1 }),
+                new PlayerVm("ИИ 2 ур.", true, new Max8Ai { Depth = 2 }),
+                new PlayerVm("ИИ 3 ур.", true, new Max8Ai { Depth = 3 }),
+                new PlayerVm("ИИ 4 ур.", true, new Max8Ai { Depth = 4 }),
+                new PlayerVm("ИИ 5 ур.", true, new Max8Ai { Depth = 5 })
+            };
+            NewGameCommand = new DelegateCommand(_ => NewGame());
             PeopleMoveCommand = new DelegateCommand(o => PeopleMove((CellVm)o));
         }
 
@@ -66,7 +77,8 @@ namespace Max8.NET.ViewModels
             set => Set(ref curY, value);
         }
 
-        public ICommand PeopleMoveCommand;
+        public ICommand NewGameCommand { get; }
+        public ICommand PeopleMoveCommand { get; }
 
         void NewGame()
         {
@@ -75,7 +87,7 @@ namespace Max8.NET.ViewModels
             field = Field.CreateRandom();
             FieldVm = new FieldVm(field);
             Player1.Score = Player2.Score = 0;
-            CurrentPlayer = Player1;
+            CurrentPlayer = null;
             CurX = CurY = 1;
             IsInGame = true;
             MoveEnded();
@@ -114,15 +126,15 @@ namespace Max8.NET.ViewModels
 
         void MoveEnded()
         {
-            if (CurrentPlayer == Player2)
-            {
-                CurrentPlayer = Player1;
-                IsInGame = FieldVm.ActivateHorizontal(CurY);
-            }
-            else
+            if (CurrentPlayer == Player1)
             {
                 CurrentPlayer = Player2;
                 IsInGame = FieldVm.ActivateVertical(CurX);
+            }
+            else
+            {
+                CurrentPlayer = Player1;
+                IsInGame = FieldVm.ActivateHorizontal(CurY);
             }
             if (isInGame && CurrentPlayer.IsAi) AiMove();
         }
