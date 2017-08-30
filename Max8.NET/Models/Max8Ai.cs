@@ -14,7 +14,10 @@
         }
 
         public int FindBestMove(Field field, Direction direction, int curPos)
-            => FindBestMove(field, direction, curPos, Depth).Coordinate.Value;
+        {
+            var r = FindBestMove(field, direction, curPos, Depth);
+            return r.Coordinate.Value;
+        }
 
         struct Result
         {
@@ -34,7 +37,7 @@
                 field.Transpose();
             int? max = null;
             int? index = null;
-            for (int y = 0; y < 8; y++)
+            for (int y = 0; y < Field.Width; y++)
                 if (field[curPos, y].IsActive)
                 {
                     var res = field[curPos, y].Value;
