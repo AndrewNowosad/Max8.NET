@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Max8.NET.ViewModels"
-        xmlns:local="clr-namespace:Max8.NET.Views"
         xmlns:conv="clr-namespace:Max8.NET.Views.Converters"
         d:DataContext="{d:DesignInstance Type=vm:MainVm}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
@@ -17,7 +16,7 @@
                             TrueValue="False"
                             FalseValue="True"/>
     </Window.Resources>
-    
+
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -40,7 +39,7 @@
             <ComboBox ItemsSource="{Binding AllPlayers1}"
                       SelectedItem="{Binding Player1}"
                       DisplayMemberPath="Name"/>
-            
+
             <TextBlock>
                 Очки:
                 <Run Text="{Binding Player1.Score}"/>
@@ -52,6 +51,7 @@
             <ComboBox ItemsSource="{Binding AllPlayers2}"
                       SelectedItem="{Binding Player2}"
                       DisplayMemberPath="Name"/>
+            
             <TextBlock>
                 Очки:
                 <Run Text="{Binding Player2.Score}"/>
@@ -64,7 +64,7 @@
             </TextBlock>
         </StackPanel>
 
-        <ItemsControl Grid.Column="1" ItemsSource="{Binding FieldVm.Cells}"
+        <ItemsControl Grid.Column="1" Padding="-1" ItemsSource="{Binding FieldVm.Cells}"
                       Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -75,11 +75,14 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Value}" Margin="0,0,2,2"
-                            Command="{Binding DataContext.PeopleMoveCommand,
-                                              RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    <Button Margin="1"
+                            Command="{Binding DataContext.PeopleMoveCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                             CommandParameter="{Binding}" IsEnabled="{Binding IsAvailable}"
-                            Visibility="{Binding IsActive, Converter={StaticResource TrueToVisibleConverter}}"/>
+                            Visibility="{Binding IsActive, Converter={StaticResource TrueToVisibleConverter}}">
+                        <Viewbox Stretch="Uniform" Margin="3">
+                            <TextBlock Text="{Binding Value}"/>
+                        </Viewbox>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
