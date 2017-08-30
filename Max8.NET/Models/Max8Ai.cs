@@ -14,10 +14,7 @@
         }
 
         public int FindBestMove(Field field, Direction direction, int curPos)
-        {
-            var r = FindBestMove(field, direction, curPos, Depth);
-            return r.Coordinate.Value;
-        }
+            => FindBestMove(field.CreateCopy(), direction, curPos, Depth).Coordinate.Value;
 
         struct Result
         {
