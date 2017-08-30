@@ -1,5 +1,7 @@
 ﻿using Max8.NET.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Max8.NET.ViewModels
@@ -13,7 +15,7 @@ namespace Max8.NET.ViewModels
         {
             AllPlayers1 = new List<PlayerVm>
             {
-                new PlayerVm("Человек", false, null),
+                new PlayerVm("Человек 1", false, null),
                 new PlayerVm("ИИ 1 ур.", true, new Max8Ai { Depth = 1 }),
                 new PlayerVm("ИИ 2 ур.", true, new Max8Ai { Depth = 2 }),
                 new PlayerVm("ИИ 3 ур.", true, new Max8Ai { Depth = 3 }),
@@ -22,7 +24,7 @@ namespace Max8.NET.ViewModels
             };
             AllPlayers2 = new List<PlayerVm>
             {
-                new PlayerVm("Человек", false, null),
+                new PlayerVm("Человек 2", false, null),
                 new PlayerVm("ИИ 1 ур.", true, new Max8Ai { Depth = 1 }),
                 new PlayerVm("ИИ 2 ур.", true, new Max8Ai { Depth = 2 }),
                 new PlayerVm("ИИ 3 ур.", true, new Max8Ai { Depth = 3 }),
@@ -30,6 +32,7 @@ namespace Max8.NET.ViewModels
                 new PlayerVm("ИИ 5 ур.", true, new Max8Ai { Depth = 5 })
             };
             NewGameCommand = new DelegateCommand(_ => NewGame());
+            StopGameCommand = new DelegateCommand(_ => StopGame());
             PeopleMoveCommand = new DelegateCommand(o => PeopleMove((CellVm)o));
         }
 
@@ -78,7 +81,13 @@ namespace Max8.NET.ViewModels
         }
 
         public ICommand NewGameCommand { get; }
+        public ICommand StopGameCommand { get; }
         public ICommand PeopleMoveCommand { get; }
+
+        void StopGame()
+        {
+            IsInGame = false;
+        }
 
         void NewGame()
         {
@@ -102,9 +111,11 @@ namespace Max8.NET.ViewModels
             CkeckLastCell();
         }
 
-        void AiMove()
+        async void AiMove()
         {
             var d = CurrentPlayer == Player1 ? Direction.Horizontal : Direction.Vertical;
+            await Task.Delay(TimeSpan.FromSeconds(0.5));
+            if (!IsInGame) return;
             if (d == Direction.Horizontal)
             {
                 CurX = CurrentPlayer.Ai.FindBestMove(field, d, CurY);
