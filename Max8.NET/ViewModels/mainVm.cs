@@ -40,12 +40,12 @@ namespace Max8.NET.ViewModels
         public PlayerVm Player1
         {
             get => player1;
-            set => Set(ref player1, value);
+            set { if (Set(ref player1, value)) IsGameOver = false; }
         }
         public PlayerVm Player2
         {
             get => player2;
-            set => Set(ref player2, value);
+            set { if (Set(ref player2, value)) IsGameOver = false; }
         }
         public PlayerVm CurrentPlayer
         {

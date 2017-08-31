@@ -39,7 +39,8 @@
 
             <ComboBox ItemsSource="{Binding AllPlayers1}"
                       SelectedItem="{Binding Player1}"
-                      DisplayMemberPath="Name"/>
+                      DisplayMemberPath="Name"
+                      IsEnabled="{Binding IsInGame, Converter={StaticResource InverseBoolConverter}}"/>
 
             <TextBlock>
                 Очки:
@@ -51,7 +52,8 @@
 
             <ComboBox ItemsSource="{Binding AllPlayers2}"
                       SelectedItem="{Binding Player2}"
-                      DisplayMemberPath="Name"/>
+                      DisplayMemberPath="Name"
+                      IsEnabled="{Binding IsInGame, Converter={StaticResource InverseBoolConverter}}"/>
             
             <TextBlock>
                 Очки:
