@@ -12,8 +12,8 @@ namespace Max8.NET.Views.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool b1 && b1) return TrueValue;
-            if (value is bool b2 && !b2) return FalseValue;
+            if (value is bool b)
+                return b ? TrueValue : FalseValue;
             return DependencyProperty.UnsetValue;
         }
 
