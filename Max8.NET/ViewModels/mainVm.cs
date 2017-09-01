@@ -1,6 +1,5 @@
 ﻿using Max8.NET.Helpers;
 using Max8.NET.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -121,16 +120,16 @@ namespace Max8.NET.ViewModels
         async void AiMove()
         {
             var d = CurrentPlayer == Player1 ? Direction.Horizontal : Direction.Vertical;
-            await Task.Delay(TimeSpan.FromSeconds(0.5));
-            if (!IsInGame) return;
+            var delay = TplHelpers.Delay<int>(500);
             if (d == Direction.Horizontal)
             {
-                CurX = await Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurY));
+                CurX = (await Task.WhenAll(Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurY)), delay))[0];
             }
             else
             {
-                CurY = await Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurX));
+                CurY = (await Task.WhenAll(Task.Run(() => CurrentPlayer.Ai.FindBestMove(field, d, CurX)), delay))[0];
             }
+            if (!IsInGame) return;
             CkeckLastCell();
         }
 

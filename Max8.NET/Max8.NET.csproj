@@ -66,6 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\EnumerableExtensions.cs" />
+    <Compile Include="Helpers\TplHelpers.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Field.cs" />
