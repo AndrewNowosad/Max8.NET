@@ -1,4 +1,5 @@
-﻿using Max8.NET.Models;
+﻿using Max8.NET.Helpers;
+using Max8.NET.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -111,7 +112,7 @@ namespace Max8.NET.ViewModels
         void PeopleMove(CellVm cellVm)
         {
             if (CurrentPlayer.IsAi) return;
-            var index = (FieldVm.Cells as List<CellVm>).IndexOf(cellVm);
+            int index = FieldVm.Cells.IndexOf(cellVm);
             CurX = index % FieldVm.FieldSize;
             CurY = index / FieldVm.FieldSize;
             CkeckLastCell();
