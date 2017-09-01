@@ -1,4 +1,6 @@
-﻿namespace Max8.NET.Models
+﻿using System;
+
+namespace Max8.NET.Models
 {
     class Max8Ai
     {
@@ -6,11 +8,7 @@
         public int Depth
         {
             get => depth;
-            set
-            {
-                int Max(int x, int y) => x > y ? x : y;
-                depth = Max(1, value);
-            }
+            set => depth = Math.Max(1, value);
         }
 
         public int FindBestMove(Field field, Direction direction, int curPos)
