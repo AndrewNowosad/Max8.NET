@@ -6,8 +6,7 @@
 
         public static Field CreateRandom()
         {
-            var f = new Field();
-            f.cells = new Cell[Width, Width];
+            var f = new Field { cells = new Cell[Width, Width] };
             for (int x = 0; x < Width; ++x)
                 for (int y = 0; y < Width; ++y)
                     f.cells[x, y] = Cell.CreateRandomCell();
