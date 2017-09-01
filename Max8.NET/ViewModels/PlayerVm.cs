@@ -8,7 +8,7 @@ namespace Max8.NET.ViewModels
         public bool IsAi { get; }
         public Max8Ai Ai { get; }
 
-        int score;
+        int score = 0;
         public int Score
         {
             get => score;
@@ -20,7 +20,6 @@ namespace Max8.NET.ViewModels
             Name = name;
             IsAi = isAi;
             Ai = ai;
-            Score = 0;
         }
     }
 }
