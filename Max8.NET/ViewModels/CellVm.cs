@@ -4,14 +4,14 @@
     {
         public int Value { get; }
 
-        bool isActive;
+        bool isActive = true;
         public bool IsActive
         {
             get => isActive;
             set => Set(ref isActive, value);
         }
 
-        bool isAvailable;
+        bool isAvailable = false;
         public bool IsAvailable
         {
             get => isAvailable;
@@ -21,8 +21,6 @@
         public CellVm(int value)
         {
             Value = value;
-            IsActive = true;
-            IsAvailable = false;
         }
     }
 }
